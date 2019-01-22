@@ -2,11 +2,11 @@
 
 ## Usage
 
-In this folder:
-`docker build -t oep_postgres .`
+In this folder:  
+`docker build -t oep_postgres .`  
 `docker run -p "5432:5432" oep_postgres`
 
-In your project folder:
+In your project folder:  
 `python manage.py migrate`
 
 ## What does this?
