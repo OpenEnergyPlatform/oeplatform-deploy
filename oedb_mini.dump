@@ -1,0 +1,861 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.14
+-- Dumped by pg_dump version 9.5.14
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: boundaries; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA boundaries;
+
+CREATE TABLE boundaries.test_table(
+  id BIGINT PRIMARY KEY);
+
+INSERT INTO boundaries.test_table(id) VALUES (1);
+
+--
+-- Name: demand; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA demand;
+
+
+CREATE TABLE demand.test_table(
+  id BIGINT PRIMARY KEY);
+
+INSERT INTO demand.test_table(id) VALUES (1);
+
+--
+-- Name: grid; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA grid;
+
+
+CREATE TABLE grid.test_table(
+  id BIGINT PRIMARY KEY);
+
+INSERT INTO grid.test_table(id) VALUES (1);
+
+--
+-- Name: model_draft; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA model_draft;
+
+CREATE TABLE model_draft.test_table(
+  id BIGINT PRIMARY KEY);
+
+INSERT INTO model_draft.test_table(id) VALUES (1);
+
+--
+-- Name: reference; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA reference;
+
+--
+-- Name: sandbox; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA sandbox;
+
+
+--
+-- Name: supply; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA supply;
+
+CREATE TABLE supply.test_table(
+  id BIGINT PRIMARY KEY);
+
+INSERT INTO supply.test_table(id) VALUES (1);
+
+
+--
+-- Name: topology; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA topology;
+
+
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
+--
+-- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+
+
+--
+-- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: entries; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.entries (
+    entries_id integer NOT NULL,
+    jabref_eid character varying(8) DEFAULT NULL::character varying,
+    database_id integer,
+    entry_types_id integer,
+    cite_key character varying(100) DEFAULT NULL::character varying,
+    abstract text,
+    address text,
+    annote text,
+    author text,
+    booktitle text,
+    chapter text,
+    comment text,
+    crossref text,
+    doi text,
+    edition text,
+    editor text,
+    eid text,
+    file text,
+    howpublished text,
+    institution text,
+    journal text,
+    key_ text,
+    keywords text,
+    language text,
+    location text,
+    month text,
+    note text,
+    number text,
+    organization text,
+    pages text,
+    pdf text,
+    pmid text,
+    priority text,
+    ps text,
+    publisher text,
+    qualityassured text,
+    ranking text,
+    relevance text,
+    school text,
+    search text,
+    series text,
+    title text,
+    type text,
+    url text,
+    volume text,
+    year text
+);
+
+
+--
+-- Name: entry_group; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.entry_group (
+    entries_id integer NOT NULL,
+    groups_id integer NOT NULL
+);
+
+
+--
+-- Name: entries_entries_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.entries_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: entries_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.entries_entries_id_seq OWNED BY reference.entries.entries_id;
+
+
+--
+-- Name: entry_group_entries_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.entry_group_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: entry_group_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.entry_group_entries_id_seq OWNED BY reference.entry_group.entries_id;
+
+
+--
+-- Name: entry_types; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.entry_types (
+    entry_types_id integer NOT NULL,
+    label text,
+    abstract character varying(3) DEFAULT NULL::character varying,
+    address character varying(3) DEFAULT NULL::character varying,
+    annote character varying(3) DEFAULT NULL::character varying,
+    author character varying(3) DEFAULT NULL::character varying,
+    booktitle character varying(3) DEFAULT NULL::character varying,
+    chapter character varying(3) DEFAULT NULL::character varying,
+    comment character varying(3) DEFAULT NULL::character varying,
+    crossref character varying(3) DEFAULT NULL::character varying,
+    doi character varying(3) DEFAULT NULL::character varying,
+    edition character varying(3) DEFAULT NULL::character varying,
+    editor character varying(3) DEFAULT NULL::character varying,
+    eid character varying(3) DEFAULT NULL::character varying,
+    file character varying(3) DEFAULT NULL::character varying,
+    howpublished character varying(3) DEFAULT NULL::character varying,
+    institution character varying(3) DEFAULT NULL::character varying,
+    journal character varying(3) DEFAULT NULL::character varying,
+    key_ character varying(3) DEFAULT NULL::character varying,
+    keywords character varying(3) DEFAULT NULL::character varying,
+    language character varying(3) DEFAULT NULL::character varying,
+    location character varying(3) DEFAULT NULL::character varying,
+    month character varying(3) DEFAULT NULL::character varying,
+    note character varying(3) DEFAULT NULL::character varying,
+    number character varying(3) DEFAULT NULL::character varying,
+    organization character varying(3) DEFAULT NULL::character varying,
+    pages character varying(3) DEFAULT NULL::character varying,
+    pdf character varying(3) DEFAULT NULL::character varying,
+    pmid character varying(3) DEFAULT NULL::character varying,
+    priority character varying(3) DEFAULT NULL::character varying,
+    ps character varying(3) DEFAULT NULL::character varying,
+    publisher character varying(3) DEFAULT NULL::character varying,
+    qualityassured character varying(3) DEFAULT NULL::character varying,
+    ranking character varying(3) DEFAULT NULL::character varying,
+    relevance character varying(3) DEFAULT NULL::character varying,
+    school character varying(3) DEFAULT NULL::character varying,
+    search character varying(3) DEFAULT NULL::character varying,
+    series character varying(3) DEFAULT NULL::character varying,
+    title character varying(3) DEFAULT NULL::character varying,
+    type character varying(3) DEFAULT NULL::character varying,
+    url character varying(3) DEFAULT NULL::character varying,
+    volume character varying(3) DEFAULT NULL::character varying,
+    year character varying(3) DEFAULT NULL::character varying
+);
+
+
+--
+-- Name: entry_types_entry_types_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.entry_types_entry_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: entry_types_entry_types_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.entry_types_entry_types_id_seq OWNED BY reference.entry_types.entry_types_id;
+
+
+--
+-- Name: group_types; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.group_types (
+    group_types_id integer NOT NULL,
+    label character varying(100) DEFAULT NULL::character varying
+);
+
+
+--
+-- Name: group_types_group_types_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.group_types_group_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: group_types_group_types_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.group_types_group_types_id_seq OWNED BY reference.group_types.group_types_id;
+
+
+--
+-- Name: groups; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.groups (
+    groups_id integer NOT NULL,
+    group_types_id integer,
+    label character varying(100) DEFAULT NULL::character varying,
+    database_id integer,
+    parent_id integer,
+    search_field character varying(100) DEFAULT NULL::character varying,
+    search_expression character varying(200) DEFAULT NULL::character varying,
+    case_sensitive boolean,
+    reg_exp boolean,
+    hierarchical_context integer
+);
+
+
+--
+-- Name: groups_groups_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.groups_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.groups_groups_id_seq OWNED BY reference.groups.groups_id;
+
+
+--
+-- Name: jabref_database; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.jabref_database (
+    database_id integer NOT NULL,
+    database_name character varying(64) NOT NULL,
+    md5_path character varying(32) NOT NULL
+);
+
+
+--
+-- Name: jabref_database_database_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.jabref_database_database_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: jabref_database_database_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.jabref_database_database_id_seq OWNED BY reference.jabref_database.database_id;
+
+
+--
+-- Name: reference_to_entries; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.reference_to_entries (
+    ref_id bigint NOT NULL,
+    ref_data_json json,
+    schema_name character varying NOT NULL,
+    tbl_name character varying NOT NULL,
+    changed_by character varying(20) DEFAULT "current_user"(),
+    lastmodified timestamp without time zone DEFAULT now()
+);
+
+
+--
+-- Name: strings; Type: TABLE; Schema: reference; Owner: -
+--
+
+CREATE TABLE reference.strings (
+    strings_id integer NOT NULL,
+    label character varying(100) DEFAULT NULL::character varying,
+    content character varying(200) DEFAULT NULL::character varying,
+    database_id integer
+);
+
+
+--
+-- Name: strings_strings_id_seq; Type: SEQUENCE; Schema: reference; Owner: -
+--
+
+CREATE SEQUENCE reference.strings_strings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: strings_strings_id_seq; Type: SEQUENCE OWNED BY; Schema: reference; Owner: -
+--
+
+ALTER SEQUENCE reference.strings_strings_id_seq OWNED BY reference.strings.strings_id;
+
+
+--
+-- Name: entries entries_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entries ALTER COLUMN entries_id SET DEFAULT nextval('reference.entries_entries_id_seq'::regclass);
+
+
+--
+-- Name: entry_group entries_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entry_group ALTER COLUMN entries_id SET DEFAULT nextval('reference.entry_group_entries_id_seq'::regclass);
+
+
+--
+-- Name: entry_types entry_types_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entry_types ALTER COLUMN entry_types_id SET DEFAULT nextval('reference.entry_types_entry_types_id_seq'::regclass);
+
+
+--
+-- Name: group_types group_types_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.group_types ALTER COLUMN group_types_id SET DEFAULT nextval('reference.group_types_group_types_id_seq'::regclass);
+
+
+--
+-- Name: groups groups_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.groups ALTER COLUMN groups_id SET DEFAULT nextval('reference.groups_groups_id_seq'::regclass);
+
+
+--
+-- Name: jabref_database database_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.jabref_database ALTER COLUMN database_id SET DEFAULT nextval('reference.jabref_database_database_id_seq'::regclass);
+
+
+--
+-- Name: strings strings_id; Type: DEFAULT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.strings ALTER COLUMN strings_id SET DEFAULT nextval('reference.strings_strings_id_seq'::regclass);
+
+
+--
+-- Name: entries entries_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entries
+    ADD CONSTRAINT entries_pkey PRIMARY KEY (entries_id);
+
+
+--
+-- Name: entry_group entry_group_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entry_group
+    ADD CONSTRAINT entry_group_pkey PRIMARY KEY (groups_id, entries_id);
+
+
+--
+-- Name: entry_types entry_types_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entry_types
+    ADD CONSTRAINT entry_types_pkey PRIMARY KEY (entry_types_id);
+
+
+--
+-- Name: group_types group_types_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.group_types
+    ADD CONSTRAINT group_types_pkey PRIMARY KEY (group_types_id);
+
+
+--
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (groups_id);
+
+
+--
+-- Name: jabref_database jabref_database_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.jabref_database
+    ADD CONSTRAINT jabref_database_pkey PRIMARY KEY (database_id);
+
+
+--
+-- Name: reference_to_entries reference_to_entries_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.reference_to_entries
+    ADD CONSTRAINT reference_to_entries_pkey PRIMARY KEY (ref_id);
+
+
+--
+-- Name: strings strings_pkey; Type: CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.strings
+    ADD CONSTRAINT strings_pkey PRIMARY KEY (strings_id);
+
+
+--
+-- Name: entries entries_database_id_fkey; Type: FK CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entries
+    ADD CONSTRAINT entries_database_id_fkey FOREIGN KEY (database_id) REFERENCES reference.jabref_database(database_id);
+
+
+--
+-- Name: entries entries_entry_types_id_fkey; Type: FK CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entries
+    ADD CONSTRAINT entries_entry_types_id_fkey FOREIGN KEY (entry_types_id) REFERENCES reference.entry_types(entry_types_id);
+
+
+--
+-- Name: entry_group entry_group_entries_id_fkey; Type: FK CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entry_group
+    ADD CONSTRAINT entry_group_entries_id_fkey FOREIGN KEY (entries_id) REFERENCES reference.entries(entries_id) ON DELETE CASCADE;
+
+
+--
+-- Name: entry_group entry_group_groups_id_fkey; Type: FK CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.entry_group
+    ADD CONSTRAINT entry_group_groups_id_fkey FOREIGN KEY (groups_id) REFERENCES reference.groups(groups_id);
+
+
+--
+-- Name: groups groups_database_id_fkey; Type: FK CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.groups
+    ADD CONSTRAINT groups_database_id_fkey FOREIGN KEY (database_id) REFERENCES reference.jabref_database(database_id);
+
+
+--
+-- Name: strings strings_database_id_fkey; Type: FK CONSTRAINT; Schema: reference; Owner: -
+--
+
+ALTER TABLE ONLY reference.strings
+    ADD CONSTRAINT strings_database_id_fkey FOREIGN KEY (database_id) REFERENCES reference.jabref_database(database_id);
+    
+----------    
+-- Tags --
+----------
+
+    
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tags (
+    id bigint NOT NULL,
+    name character varying(40),
+    color integer
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
+
+
+--
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.tags (id, name, color) FROM stdin;
+73	TestTag	16711680
+74	Powerplant	65288
+75	Energy	16774922
+76	Coal	0
+77	Nuclear	7864064
+78	Water	13311
+80	Test	10568447
+81	Test2	13238271
+\.
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.tags_id_seq', 81, true);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+    
+CREATE TABLE public.table_tags (
+    tag bigint,
+    schema_name character varying(100),
+    table_name character varying(100)
+);
+
+
+--
+-- Name: table_tags table_tags_tag_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.table_tags
+    ADD CONSTRAINT table_tags_tag_fkey FOREIGN KEY (tag) REFERENCES public.tags(id);
+    
+CREATE TABLE public._edit_base (
+    _id bigint NOT NULL,
+    _message text,
+    _user character varying(50),
+    _submitted timestamp without time zone DEFAULT now(),
+    _autocheck boolean DEFAULT false,
+    _humancheck boolean DEFAULT false,
+    _type character varying(8),
+    _applied boolean DEFAULT false
+);
+
+
+--
+-- Name: _insert_base; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public._insert_base (
+    _message text,
+    _user character varying(50),
+    _submitted timestamp without time zone DEFAULT now(),
+    _autocheck boolean DEFAULT false,
+    _humancheck boolean DEFAULT false,
+    _type character varying(8),
+    _applied boolean DEFAULT false,
+    _id integer NOT NULL
+);
+
+
+
+----------
+-- Base --
+----------
+
+
+--
+-- Name: _edit_base__id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public._edit_base__id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: _edit_base__id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public._edit_base__id_seq OWNED BY public._edit_base._id;
+
+
+--
+-- Name: _insert_base__id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public._insert_base__id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: _insert_base__id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public._insert_base__id_seq OWNED BY public._insert_base._id;
+
+
+--
+-- Name: _edit_base _id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public._edit_base ALTER COLUMN _id SET DEFAULT nextval('public._edit_base__id_seq'::regclass);
+
+
+--
+-- Name: _insert_base _id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public._insert_base ALTER COLUMN _id SET DEFAULT nextval('public._insert_base__id_seq'::regclass);
+
+
+--
+-- Name: _edit_base _edit_base_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public._edit_base
+    ADD CONSTRAINT _edit_base_pkey PRIMARY KEY (_id);
+    
+    
+CREATE SEQUENCE public.api_columns_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;    
+    
+    
+CREATE TABLE public.api_columns (
+    column_name character varying(50),
+    not_null boolean,
+    data_type character varying(50),
+    new_name character varying(50),
+    reviewed boolean DEFAULT false,
+    changed boolean DEFAULT false,
+    id bigint DEFAULT nextval('public.api_columns_id_seq'::regclass) NOT NULL,
+    c_schema character varying(50),
+    c_table character varying(50)
+);
+
+
+ALTER TABLE public.api_columns OWNER TO oedb_test;
+
+--
+-- Name: api_columns pkey_api_columns; Type: CONSTRAINT; Schema: public; Owner: oedb_test
+--
+
+ALTER TABLE ONLY public.api_columns
+    ADD CONSTRAINT pkey_api_columns PRIMARY KEY (id);
+
+--
+-- Name: api_constraints_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.api_constraints_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: api_constraints; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.api_constraints (
+    id bigint DEFAULT nextval('public.api_constraints_id_seq'::regclass) NOT NULL,
+    action character varying(10),
+    constraint_type character varying(30),
+    constraint_name character varying(50),
+    constraint_parameter character varying(50),
+    reference_table character varying(50),
+    reference_column character varying(50),
+    c_schema character varying(50),
+    c_table character varying(50),
+    reviewed boolean DEFAULT false,
+    changed boolean DEFAULT false
+);
+
+
+--
+-- Name: pkey_api_constraints; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.api_constraints
+    ADD CONSTRAINT pkey_api_constraints PRIMARY KEY (id);
+
