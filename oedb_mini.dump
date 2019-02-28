@@ -2,9 +2,6 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.14
--- Dumped by pg_dump version 9.5.14
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -17,6 +14,53 @@ SET row_security = off;
 --
 -- Name: boundaries; Type: SCHEMA; Schema: -; Owner: -
 --
+
+
+CREATE SCHEMA _boundaries;
+
+
+--
+-- Name: _demand; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA _demand;
+
+
+--
+-- Name: _grid; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA _grid;
+
+
+--
+-- Name: _model_draft; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA _model_draft;
+
+
+--
+-- Name: _reference; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA _reference;
+
+
+--
+-- Name: _sandbox; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA _sandbox;
+
+
+--
+-- Name: _schema1; Type: SCHEMA; Schema: -; Owner: -
+--
+
+
+CREATE SCHEMA _supply;
+
 
 CREATE SCHEMA boundaries;
 
