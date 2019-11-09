@@ -2,12 +2,9 @@
 
 echo "Creating Databases..."
 
-createdb django
-createdb dataedit
+createdb oep_django
+createdb oedb
 
-echo "Inserting Data..."
-
-for fileName in *.dump; do
-	psql -d dataedit < $fileName 
-done
-
+psql -U postgres -d oedb -c "create extension postgis;"
+psql -U postgres -d oedb -c "create extension postgis_topology;"
+psql -U postgres -d oedb -c "create extension hstore;"
